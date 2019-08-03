@@ -24,10 +24,13 @@ modified_time: '$(date -f - < "$datadir/$dir/modified_time")'
 title: '$(cat "$datadir/$dir/title")'
 nav: '$(cat "$datadir/$dir/nav")'
 views: '$(ls -l "$counter" | cut -d' ' -f 5)'
+$(cat "$contentsdir/config.yaml")
+page: $(sed -e 's;^;/?;' -e 's;s/;=;' <<< $dir)
 ---
 FIN
 
 ### OUTPUT ###
 pandoc --template="$viewdir/template.html"	\
     -f markdown_github+yaml_metadata_block "$md" "$tmp-meta.yaml"  |
-sed -r "/:\/\/|=\"\//!s;<(img src|a href)=\";&/$dir/;"
+sed -r "/:\/\/|=\"\//!s;<(img src|a href)=\";&/$dir/;"             |
+sed 's;href="<a href="\(.*\)"[^>]*>.*</a>";href="\1";'
