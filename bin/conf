@@ -3,3 +3,8 @@ contents_owner="gbamboo415"
 wwwdir="/var/www/blog.aotake91.net"
 contentsdir="$wwwdir/$contents"
 appdir="$wwwdir/blog_system"
+viewdir="$appdir/view"
+datadir="${contentsdir}_data"
+logdir="/var/log/$contents"
+
+export LANG=ja_JP.UTF-8
