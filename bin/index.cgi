@@ -11,6 +11,7 @@ dir="$(tr -dc 'a-zA-Z0-9_=' <<< ${QUERY_STRING} | sed 's;=;s/;')"
 [ -z "$dir" ] && dir="pages/top"
 [ "$dir" = "post" ] && dir="$(tail -n 1 "$datadir/post_list" | cut -d' ' -f 3)"
 md="$contentsdir/$dir/main.md"
+comments="$datadir/comments/$(tr '/' '_' <<< $dir)_comments.yaml"
 [ -f "$md" ]
 
 ### MAKE MATADATA ###
@@ -26,11 +27,16 @@ nav: '$(cat "$datadir/$dir/nav")'
 views: '$(ls -l "$counter" | cut -d' ' -f 5)'
 $(cat "$contentsdir/config.yaml")
 page: $(sed -e 's;^;/?;' -e 's;s/;=;' <<< $dir)
----
 FIN
+
+cat << FIN2 >> $tmp-meta.yaml
+comments:
+$(cat "$comments")
+---
+FIN2
 
 ### OUTPUT ###
 pandoc --template="$viewdir/template.html"	\
-    -f markdown_github+yaml_metadata_block "$md" "$tmp-meta.yaml"  |
-sed -r "/:\/\/|=\"\//!s;<(img src|a href)=\";&/$dir/;"             |
+    -f markdown_github+yaml_metadata_block "$md" "$tmp-meta.yaml" |
+sed -r "/:\/\/|=\"\//!s;<(img src|a href)=\";&/$dir/;"            |
 sed 's;href="<a href="\(.*\)"[^>]*>.*</a>";href="\1";'

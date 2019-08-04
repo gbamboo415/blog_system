@@ -36,6 +36,7 @@ Content-Type: text/html
     </style>
     <!-- Custom styles for this template -->
     <link href="/bsview/jumbotron.css" rel="stylesheet">
+    <script src="/bsview/comment.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -108,6 +109,31 @@ Content-Type: text/html
         keywords: <span id="keywords">$Keywords$</span><br />
         $nav$
         </p>
+      </div>
+      <div class="card">
+        <h4 class="card-header">Comments</h4>
+        <p style="padding: 5px">
+	コメント投稿・表示機能実装予定
+        </p>
+	<p style="padding: 5px">コメントは管理者の承認後に公開されます。</p>
+	$if(comments)$
+	$for(comments)$
+	<p>$comments.name$ $comments.postdate$</p>
+	<p>$comments.comment$</p>
+	$endfor$
+	$endif$
+	<hr>
+	<div style="padding: 5px">
+	<form>
+	<dl>
+	<dt><label for="name">名前:</label></dt>
+	<dd><input type="text" id="name" name="name" maxlength="50" size="50"></dd>
+	<dt><label for="comment">コメント:</label></dt>
+	<dd><textarea id="comment" name="comment" maxlength="140" cols="50"></textarea></dd>
+	<p><button type="button" value="送信" onclick="submit_comment()">コメント送信（機能試験中）</button></p>
+	</dl>
+	</form>
+	</div>
       </div>
     </div>
 
