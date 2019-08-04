@@ -1,4 +1,5 @@
 #!/bin/bash -eux
+export PATH="${PATH}:/usr/local/bin"
 source "$(dirname $0)/bin/conf"
 
 [ "$USER" = "root" ] # USER MUST BE ROOT
